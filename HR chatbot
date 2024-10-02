@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Chatbot</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .form-container {
+            width: 100%;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: #0a373d;
+            text-align: center;
+        }
+
+        .form-container label {
+            font-weight: 600;
+            color: #0a373d;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .form-container input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .form-container button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: none;
+            border-radius: 7px;
+            background-color: #2F8D46;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            outline: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #247a3d;
+        }
+
+        .chatbot-container {
+            width: 100%;
+            max-width: 800px;
+            height: 600px;
+            background-color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        .chatbot-header {
+            background-color: #2F8D46;
+            color: #fff;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .chatbot-header .chatbot-avatar img {
+            border-radius: 50%;
+            margin-right: 10px;
+            width: 40px;
+            height: 40px;
+        }
+
+        .chatbot-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f5f5f5;
+        }
+
+        .chatbot-footer {
+            border-top: 1px solid #ccc;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        .chatbot-footer input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            margin-right: 10px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .chatbot-footer button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 7px;
+            background-color: #2F8D46;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            outline: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .chatbot-footer button:hover {
+            background-color: #247a3d;
+        }
+
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #162887;
+            color: #fff;
+            align-self: flex-end;
+        }
+
+        .chatbot-message {
+            background-color: #eaeaea;
+            color: #000;
+        }
+
+        .advertisement {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            padding: 20px;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .advertisement img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .advertisement p {
+            font-weight: 600;
+            color: #0a373d;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container" id="login-form">
+            <h2>Login</h2>
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" placeholder="Enter your email">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" placeholder="Enter your password">
+            <button onclick="login()">Login</button>
+            <p>Don't have an account? <a href="#" onclick="showSignUpForm()">Sign Up</a></p>
+        </div>
+
+        <div class="form-container" id="signup-form" style="display: none;">
+            <h2>Sign Up</h2>
+            <label for="signup-name">Name</label>
+            <input type="text" id="signup-name" placeholder="Enter your name">
+            <label for="signup-email">Email</label>
+            <input type="email" id="signup-email" placeholder="Enter your email">
+            <label for="signup-password">Password</label>
+            <input type="password" id="signup-password" placeholder="Enter your password">
+            <button onclick="signUp()">Sign Up</button>
+            <p>Already have an account? <a href="#" onclick="showLoginForm()">Login</a></p>
+        </div>
+
+        <div class="chatbot-container" style="display: none;" id="chatbot">
+            <div class="chatbot-header" id="chatbot-header">
+                <div class="chatbot-avatar">
+                    <img src="reliance.png" width="100x50" height="5x5" alt="Reliance Industries">
+                </div>
+
+            
+                <div class="chatbot-name">Reliance Industries</div>
+
+
+                <span>HR Chatbot</span>
+            </div>
+            <div class="chatbot-body" id="chatbot-body">
+                <div class="chat-message chatbot-message">
+                    Hello! I'm your friendly HR assistant. How can I help you today?
+                </div>
+            </div>
+            <div class="chatbot-footer">
+                <input type="text" id="user-input" placeholder="Type your message...">
+                <button id="send-message">Send</button>
+            </div>
+        </div>
+
+        <div class="advertisement">
+        
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const signUpForm = document.getElementById('signup-form');
+        const chatbotContainer = document.getElementById('chatbot');
+
+        const chatbotHeader = document.getElementById('chatbot-header');
+        const chatbotBody = document.getElementById('chatbot-body');
+        const userInput = document.getElementById('user-input');
+        const sendMessageBtn = document.getElementById('send-message');
+
+        function showSignUpForm() {
+            loginForm.style.display = 'none';
+            signUpForm.style.display = 'block';
+        }
+
+        function showLoginForm() {
+            signUpForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        }
+
+        function login() {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+
+            // Add your login validation logic here
+            if (email === '' || password === '') {
+                alert('Please enter both email and password.');
+                return;
+            }
+
+            // Mock login success for demonstration
+            // Replace with actual login logic (e.g., API call)
+            chatbotContainer.style.display = 'flex';
+            loginForm.style.display = 'none';
+        }
+
+        function signUp() {
+            // Add sign-up logic here
+            signUpForm.style.display = 'none';
+            chatbotContainer.style.display = 'flex';
+        }
+
+        sendMessageBtn.addEventListener('click', () => {
+            const userMessage = userInput.value.trim();
+            if (userMessage !== '') {
+                appendMessage('user', userMessage);
+                showTypingIndicator();
+                setTimeout(() => {
+                    handleUserInput(userMessage);
+                }, 1000);
+                userInput.value = '';
+            }
+        });
+
+        function appendMessage(sender, message) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('chat-message');
+            if (sender === 'user') {
+                messageElement.classList.add('user-message');
+            } else {
+                messageElement.classList.add('chatbot-message');
+            }
+            messageElement.textContent = message;
+            chatbotBody.appendChild(messageElement);
+            chatbotBody.scrollTop = chatbotBody.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const typingIndicator = document.createElement('div');
+            typingIndicator.classList.add('chat-message', 'chatbot-message');
+            typingIndicator.textContent = 'HR is crafting a response...';
+            chatbotBody.appendChild(typingIndicator);
+            chatbotBody.scrollTop = chatbotBody.scrollHeight;
+        }
+
+        function handleUserInput(message) {
+            const response = generateResponse(message);
+            const typingIndicator = chatbotBody.querySelector('.chat-message:last-child');
+            chatbotBody.removeChild(typingIndicator);
+            appendMessage('chatbot', response);
+        }
+
+        function generateResponse(userMessage) {
+            let response;
+            switch (userMessage.toLowerCase()) {
+                case 'hello':
+                    response = "Hello! How can I assist you today?";
+                    break;
+                case 'job application':
+                    response = "Thank you for your interest! Please visit our careers page for current openings.";
+                    break;
+                case 'benefits':
+                    response = "Our company offers a comprehensive benefits package including health insurance, retirement plans, and more.";
+                    break;
+                case 'salary':
+                    response = "Our company offers competitive salaries based on experience and qualifications.";
+                    break;
+                case  'work from home':
+                   response= "We offer flexible work arrangements including remote work options for eligible employees.";
+                    break;
+                case 'interview ':
+                     response="we will let u know according to HR schedule";
+                     break;
+                case 'official lives':
+                     response = "Our company's official lives are documented and maintained by the HR department. Please contact HR for more detailed information.";
+                     break;
+                     case 'vacation policy':
+                     response = "Our vacation policy includes 15 paid vacation days per year. You can request time off through the employee portal.";
+                     break;
+                case 'sick leave':
+                     response = "Employees are entitled to 10 sick leave days per year. Please inform your manager and update your leave status in the employee portal.";
+                     break;
+                case 'working hours':
+                    response = "Our standard working hours are from 9 AM to 5 PM, Monday to Friday. Flexible working hours can be arranged with your manager.";
+                    break;
+                case 'overtime policy':
+                    response = "Overtime is compensated at 1.5 times the regular hourly rate for hours worked beyond 40 in a week. Please ensure overtime is pre-approved by your manager.";
+                    break;
+                case 'performance review':
+                    response = "Performance reviews are conducted annually. Your manager will schedule a meeting to discuss your progress and set goals.";
+                    break;
+                case 'training programs':
+                    response = "We offer various training programs to enhance your skills. Please check the training section on the employee portal for available courses.";
+                    break;
+                case 'company events':
+                    response = "We host several company events throughout the year. Please check the events calendar on the intranet for upcoming events.";
+                    break;
+                case 'payroll':
+                    response = "Payroll is processed bi-weekly. For any payroll-related questions, please contact the payroll department.";
+                    break;
+                case 'complaint':
+                    response = "We take complaints seriously. Please contact HR directly or use the anonymous complaint form available on the employee portal.";
+                    break;
+                case 'contact hr':
+                     response = "You can contact HR at hr@company.com or visit the HR office during working hours.";
+                     break;
+                case 'promotion':
+                     response = "Promotion opportunities are based on performance and company needs. Please discuss your career goals with your manager.";
+                     break;
+                case 'resignation':
+                     response = "If you wish to resign, please submit a resignation letter to your manager and HR. The notice period is typically two weeks.";
+                     break;
+                case 'retirement plan':
+                     response = "We offer a retirement savings plan with company matching. Please visit the benefits section on the employee portal for more information.";
+                     break;     
+                     
+                default:
+                    response = "Thank you for reaching out. How can I assist you today?";
+
+            }
+            return response;
+        }
+    </script>
+</body>
+</html>
+
