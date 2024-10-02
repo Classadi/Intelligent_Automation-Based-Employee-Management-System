@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Additional CSS styles for better alignment */
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            background-color: #f4f4f4;
+            padding: 20px;
+            width: 250px;
+        }
+
+        .sidebar-link {
+            display: block;
+            color: #333333;
+            text-decoration: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar-link:hover {
+            background-color: #e0e0e0;
+        }
+
+        .sidebar-link.active {
+            background-color: #cccccc;
+            font-weight: bold;
+        }
+
+        .employee-management-section {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .employee-management-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            resize: none; /* Prevent textarea resizing */
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Employee Management</div>
+    </header>
+    <div class="container">
+        <aside class="sidebar">
+            <a href="dashboard.html" class="sidebar-link">Dashboard</a>
+            <a href="employee_management.html" class="sidebar-link active">Employee Management</a>
+            <a href="attendance.html" class="sidebar-link">Attendance Tracking</a>
+            <a href="leave.html" class="sidebar-link">Leave Management</a>
+            <a href="performance.html" class="sidebar-link">Performance Evaluation</a>
+            <a href="salary.html" class="sidebar-link">Salary & Benefits</a>
+            <a href="analytics.html" class="sidebar-link">Reports & Analytics</a>
+        </aside>
+        <main class="employee-management-section">
+            <h2>Employee Management</h2>
+            <form action="#" method="post">
+                <label for="employee-name">Employee Name:</label>
+                <input type="text" id="employee-name" name="employee-name">
+                <label for="employee-contact">Contact Information:</label>
+                <input type="text" id="employee-contact" name="employee-contact">
+                <label for="employee-history">Employment History:</label>
+                <textarea id="employee-history" name="employee-history" rows="5"></textarea>
+                <label for="employee-job-info">Job-Related Information:</label>
+                <textarea id="employee-job-info" name="employee-job-info" rows="5"></textarea>
+                <input type="submit" value="Add Employee">
+            </form>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
