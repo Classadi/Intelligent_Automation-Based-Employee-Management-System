@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Calendar</title>
+<style>
+  body { font-family: Arial, sans-serif; }
+  #calendar { border-collapse: collapse; }
+  #calendar th, #calendar td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+  #calendar th { background-color: #f3f3f3; }
+  .today { background-color: #f00; color: #fff; }
+</style>
+</head>
+<body>
+
+<h2>Simple Calendar</h2>
+<table id="calendar">
+  <!-- Calendar header -->
+  <tr>
+    <th>Sun</th>
+    <th>Mon</th>
+    <th>Tue</th>
+    <th>Wed</th>
+    <th>Thu</th>
+    <th>Fri</th>
+    <th>Sat</th>
+  </tr>
+  <!-- Calendar days (example for one week shown) -->
+  <tr>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>7</td>
+  </tr>
+  <!-- Add more rows as needed -->
+</table>
+
+<button onclick="markToday()">Mark Today</button>
+
+<script>
+function markToday() {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = mm + '/' + dd + '/' + yyyy;
+  var cells = document.querySelectorAll('#calendar td');
+
+  cells.forEach(function(cell) {
+    if (cell.innerText === dd) {
+      cell.classList.add('today');
+    }
+  });
+}
+</script>
+
+</body>
+</html>
