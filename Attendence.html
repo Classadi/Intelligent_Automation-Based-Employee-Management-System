@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Attendance Tracking</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Add any additional stylesheets or scripts here -->
+    <style>
+        /* Add any additional styles specific to this page */
+        .attendance-info {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .attendance-info h3 {
+            margin-top: 0;
+        }
+
+        .attendance-info p {
+            margin: 5px 0;
+        }
+
+        .attendance-info strong {
+            font-weight: bold;
+        }
+
+        .attendance-info span {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Employee Attendance Tracking</div>
+        <div class="nav-items">
+            <!-- Add any navigation items if needed -->
+        </div>
+    </header>
+    <div class="container">
+        <aside class="sidebar">
+            <a href="dashboard.html" class="sidebar-link">Dashboard</a>
+            <a href="employee_management.html" class="sidebar-link">Employee Management</a>
+            <a href="attendance.html" class="sidebar-link active">Attendance Tracking</a>
+            <a href="leave.html" class="sidebar-link">Leave Management</a>
+            <a href="performance.html" class="sidebar-link">Performance Evaluation</a>
+            <a href="salary.html" class="sidebar-link">Salary & Benefits</a>
+            <a href="analytics.html" class="sidebar-link">Reports & Analytics</a>
+        </aside>
+        <main class="content">
+            <section class="attendance-section">
+                <h2>Employee Attendance Tracking</h2>
+                <div class="attendance-info">
+                    <h3>Attendance Information</h3>
+                    <p><strong>Clock In Time:</strong> <span id="clock-in-time">-</span></p>
+                    <p><strong>Clock Out Time:</strong> <span id="clock-out-time">-</span></p>
+                    <p><strong>Working Hours:</strong> <span id="working-hours">-</span></p>
+                    <p><strong>Overtime:</strong> <span id="overtime">-</span></p>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!-- Include any necessary scripts at the end -->
+    <script>
+        // Function to format time
+        function formatTime(date) {
+            return date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+
+        // Simulated clock-in and clock-out times
+        const clockInTime = new Date();
+        const clockOutTime = new Date();
+        clockOutTime.setHours(clockOutTime.getHours() + 8); // Adding 8 hours to simulate a work day
+
+        // Calculate working hours and overtime
+        const workingHours = (clockOutTime.getTime() - clockInTime.getTime()) / (1000 * 60 * 60);
+        const overtime = Math.max(0, workingHours - 8); // Assuming 8 hours is normal working time
+
+        // Update the attendance information
+        document.getElementById('clock-in-time').textContent = formatTime(clockInTime);
+        document.getElementById('clock-out-time').textContent = formatTime(clockOutTime);
+        document.getElementById('working-hours').textContent = `${workingHours.toFixed(2)} hours`;
+        document.getElementById('overtime').textContent = `${overtime.toFixed(2)} hours`;
+    </script>
+</body>
+</html>
